@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .cart {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Каталог товаров</h1>
+
+    <div id="catalog">
+        <!-- Список товаров будет здесь -->
+    </div>
+
+    <div class="cart">
+        <h2>Корзина</h2>
+        <div id="cart"></div>
+        <button id="checkoutButton">Оформить заказ</button>
+    </div>
+
+    <script>
+        // Пример данных каталога
+        const catalog = [
+            { id: 1, name: 'Телефон', price: 500 },
+            { id: 2, name: 'Ноутбук', price: 1000 },
+            { id: 3, name: 'Наушники', price: 100 },
+        ];
+
+        const cart = [];
+
+        function loadCatalog() {
+            const catalogElement = document.getElementById('catalog');
+            catalogElement.innerHTML = '';
+            catalog.forEach(item => {
+                const productElement = document.createElement('div');
+                productElement.classList.add('product');
+                productElement.innerHTML = `<h3>${item.name}</h3><p>Цена: ${item.price}$</p><button onclick="addToCart(${item.id})">Добавить в корзину</button>`;
+                catalogElement.appendChild(productElement);
+            });
+        }
+
+        function addToCart(itemId) {
+            const item = catalog.find(product => product.id === itemId);
+            cart.push(item);
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartElement = document.getElementById('cart');
+            cartElement.innerHTML = '';
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.innerHTML = `<p>${item.name} - ${item.price}$</p>`;
+                cartElement.appendChild(itemElement);
+            });
+        }
+
+        document.getElementById('checkoutButton').addEventListener('click', function() {
+            alert('Спасибо за покупку! Заказ оформлен.');
+            cart.length = 0;  // Очищаем корзину
+            updateCart();
+        });
+
+        loadCatalog();
+    </script>
+
+</body>
+</html>
